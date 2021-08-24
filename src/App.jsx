@@ -3,7 +3,7 @@ import "./App.css";
 function App() {
   return (
     <div
-      className="bg-gray-200 h-screen p-8 md:grid md:gap-x-8 md:gap-y-6"
+      className="bg-gray-200 flex flex-col h-screen p-8 md:grid md:gap-x-8 md:gap-y-6"
       style={{
         gridTemplateRows: "auto 1fr auto",
       }}
@@ -15,13 +15,13 @@ function App() {
 
       <div className="bg-gray-400 md:flex md:flex-col md:justify-center">
         <img
-          className="mt-6 p-4 object-scale-down mx-auto"
+          className="p-4 object-scale-down mx-auto"
           src="https://lorempixel.com/400/400/abstract"
           alt="abstract"
         />
       </div>
 
-      <div className="bg-red-300 md:overflow-scroll">
+      <div className="bg-red-300 flex-grow md:overflow-scroll overflow-hidden">
         <h2 className="text-xl">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
           rutrum magna arcu, non sodales libero ultricies vulputate
@@ -44,9 +44,11 @@ function App() {
         </p>
       </div>
 
-      <button className="italic text-red-500 md:hidden">read more...</button>
+      <div className="md:hidden">
+        <button className="italic text-red-500 ">read more...</button>
+      </div>
 
-      <div className="absolute md:relative md:col-span-2 bottom-0 md:left-0 md:right-0 left-8 right-8 mb-8">
+      <div className="md:col-span-2">
         <div className="flex gap-4 flex-end">
           <div className="flex-grow">
             <select>
