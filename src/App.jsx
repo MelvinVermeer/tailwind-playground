@@ -1,6 +1,48 @@
 import "./App.css";
+import { useEffect, useState, useRef } from "react";
+import { useWindowResize } from "./window-hook";
+import classNames from "classnames";
 
 function App() {
+  const [descriptionHeight, setDescriptionHeight] = useState(0);
+  const [showReadMore, setShowReadMore] = useState(false);
+  const { height, width } = useWindowResize();
+
+  const closeRef = useRef(null);
+  const imageRef = useRef(null);
+  const descriptionRef = useRef(null);
+  const readMoreRef = useRef(null);
+  const sliderRef = useRef(null);
+
+  useEffect(() => {
+    // console.log({ height, width });
+  }, [height, width]);
+
+  useEffect(() => {
+    if (descriptionRef.current) {
+      // getrid of hardcoding 800
+      const newHeight =
+        height -
+        ((closeRef.current?.clientHeight ?? 0) +
+          (imageRef.current?.clientHeight ?? 0) +
+          (sliderRef.current?.clientHeight ?? 0));
+
+      // console.log(`available desc ref: ${newHeight}`);
+      // console.log(`desc ref: ${descriptionRef.current.}`);
+      // console.log(newHeight < descriptionRef.current.clientHeight);
+      // setShowReadMore(newHeight < descriptionRef.current.clientHeight);
+    }
+  }, [height, width]);
+
+  useEffect(() => {
+    setShowReadMore(
+      descriptionRef.current?.offsetHeight !==
+        descriptionRef.current?.scrollHeight
+    );
+  }, [
+    descriptionRef.current?.offsetHeight,
+    descriptionRef.current?.scrollHeight,
+  ]);
   return (
     <div
       className="bg-gray-200 flex flex-col h-screen p-8 md:grid md:gap-x-8 md:gap-y-6"
@@ -8,12 +50,18 @@ function App() {
         gridTemplateRows: "auto 1fr auto",
       }}
     >
-      <div className="flex flex-row justify-end gap-6 md:col-span-2">
+      <div
+        ref={closeRef}
+        className="flex flex-row justify-end gap-6 md:col-span-2"
+      >
         <button className="border border-gray-700">full product</button>
         <button>x</button>
       </div>
 
-      <div className="bg-gray-400 md:flex md:flex-col md:justify-center">
+      <div
+        ref={imageRef}
+        className="bg-gray-400 md:flex md:flex-col md:justify-center"
+      >
         <img
           className="p-4 object-scale-down mx-auto"
           src="https://lorempixel.com/400/400/abstract"
@@ -21,7 +69,10 @@ function App() {
         />
       </div>
 
-      <div className="bg-red-300 flex-grow md:overflow-scroll overflow-hidden">
+      <div
+        ref={descriptionRef}
+        className="bg-red-300 flex-grow md:overflow-scroll overflow-hidden"
+      >
         <h2 className="text-xl">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
           rutrum magna arcu, non sodales libero ultricies vulputate
@@ -44,11 +95,14 @@ function App() {
         </p>
       </div>
 
-      <div className="md:hidden">
+      <div
+        ref={readMoreRef}
+        className={classNames("md:hidden", !showReadMore && "hidden")}
+      >
         <button className="italic text-red-500 ">read more...</button>
       </div>
 
-      <div className="md:col-span-2">
+      <div ref={sliderRef} className="md:col-span-2">
         <div className="flex gap-4 flex-end">
           <div className="flex-grow">
             <select>
