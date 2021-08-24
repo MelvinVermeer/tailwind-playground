@@ -4,11 +4,9 @@ import { useWindowResize } from "./window-hook";
 import classNames from "classnames";
 
 function App() {
-  const [descriptionHeight, setDescriptionHeight] = useState(0);
   const [showReadMore, setShowReadMore] = useState(false);
   const [hideImage, setHideImage] = useState(false);
-  const [translateHeight, setTranslateHeight] = useState(0);
-  const { height, width } = useWindowResize();
+  const { width } = useWindowResize();
 
   const closeRef = useRef(null);
   const imageRef = useRef(null);
@@ -16,51 +14,25 @@ function App() {
   const readMoreRef = useRef(null);
   const sliderRef = useRef(null);
 
-  // useEffect(() => {
-  //   // console.log({ height, width });
-  // }, [height, width]);
+  useLayoutEffect(() => {
+    if (showReadMore) {
+      descriptionRef.current.scrollTop = 0;
+    }
+    if (width > 800) {
+      setHideImage(false);
+    }
+  }, [showReadMore, width < 800]);
 
-  // useEffect(() => {
-  //   if (descriptionRef.current) {
-  //     // getrid of hardcoding 800
-  //     const newHeight =
-  //       height -
-  //       ((closeRef.current?.clientHeight ?? 0) +
-  //         (imageRef.current?.clientHeight ?? 0) +
-  //         (sliderRef.current?.clientHeight ?? 0));
-
-  //     // console.log(`available desc ref: ${newHeight}`);
-  //     // console.log(`desc ref: ${descriptionRef.current.}`);
-  //     // console.log(newHeight < descriptionRef.current.clientHeight);
-  //     // setShowReadMore(newHeight < descriptionRef.current.clientHeight);
-  //   }
-  // }, [height, width]);
-
-  useEffect(() => {
+  useLayoutEffect(() => {
     setShowReadMore(
       descriptionRef.current?.offsetHeight !==
         descriptionRef.current?.scrollHeight
     );
-
-    // ;
   }, [
-    descriptionRef.current?.offsetHeight,
-    descriptionRef.current?.scrollHeight,
+    descriptionRef.current?.offsetHeight !==
+      descriptionRef.current?.scrollHeight,
   ]);
 
-  useEffect(() => {
-    if (hideImage) {
-      setTranslateHeight(imageRef.current?.clientHeight);
-    } else {
-      setTranslateHeight(0);
-    }
-
-    setDescriptionHeight(
-      imageRef.current?.clientHeight + descriptionRef.current?.clientHeight
-    );
-  }, [hideImage]);
-
-  console.log("render");
   return (
     <div
       className="bg-gray-200 flex flex-col h-screen p-8 md:grid md:gap-x-8 md:gap-y-6"
@@ -79,7 +51,8 @@ function App() {
       <div
         ref={imageRef}
         className={classNames(
-          "bg-gray-400 md:flex md:flex-col md:justify-center"
+          "bg-gray-400 md:flex md:flex-col md:justify-center",
+          hideImage && "hidden"
         )}
       >
         <img
@@ -92,17 +65,17 @@ function App() {
       <div
         ref={descriptionRef}
         className={classNames(
-          "bg-red-300 flex-grow md:overflow-scroll transition-transform transform"
+          "bg-red-300 flex-grow overflow-hidden md:overflow-scroll transition-transform transform"
         )}
         style={{
-          transform: `translate(0px, -${translateHeight}px)`,
-          ...(hideImage ? { overflow: "scroll" } : { overflow: "hidden" }),
+          ...(hideImage ? { overflow: "scroll" } : {}),
         }}
       >
         <button
           className={classNames(
             "italic",
             "text-blue-500",
+            "md:hidden",
             !hideImage && "hidden"
           )}
           onClick={() => setHideImage(false)}
