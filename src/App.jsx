@@ -2,15 +2,26 @@ import "./App.css";
 
 function App() {
   return (
-    <div className="bg-gray-200">
-      <div>
-        <button>full product</button>
+    <div
+      className="bg-gray-200 h-screen p-8 md:grid md:gap-x-8 md:gap-y-6"
+      style={{
+        gridTemplateRows: "auto 1fr auto",
+      }}
+    >
+      <div className="flex flex-row justify-end gap-6 md:col-span-2">
+        <button className="border border-gray-700">full product</button>
         <button>x</button>
       </div>
 
-      <img src="https://lorempixel.com/400/400/abstract" alt="abstract" />
+      <div className="bg-gray-400 md:flex md:flex-col md:justify-center">
+        <img
+          className="mt-6 p-4 object-scale-down mx-auto"
+          src="https://lorempixel.com/400/400/abstract"
+          alt="abstract"
+        />
+      </div>
 
-      <div>
+      <div className="bg-red-300 md:overflow-scroll">
         <h2 className="text-xl">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
           rutrum magna arcu, non sodales libero ultricies vulputate
@@ -33,9 +44,9 @@ function App() {
         </p>
       </div>
 
-      <button>read more</button>
+      <button className="italic text-red-500 md:hidden">read more...</button>
 
-      <div>
+      <div className="absolute md:relative md:col-span-2 bottom-0 md:left-0 md:right-0 left-8 right-8 mb-8">
         <div className="flex gap-4 flex-end">
           <div className="flex-grow">
             <select>
@@ -45,16 +56,22 @@ function App() {
             </select>
           </div>
 
-          <button className="">prv</button>
-          <button className="">fwd</button>
+          <button className="border border-gray-700">prv</button>
+          <button className="border border-gray-700">fwd</button>
         </div>
 
-        <div className="flex gap-4">
+        <div className="mt-4 flex gap-4 overflow-hidden">
           <img src="https://lorempixel.com/100/100/abstract" alt="abstract" />
-          <img src="https://lorempixel.com/100/100/city" alt="abstract" />
-          <img src="https://lorempixel.com/100/100/people" alt="abstract" />
-          <img src="https://lorempixel.com/100/100/food" alt="abstract" />
-          <img src="https://lorempixel.com/100/100/nature" alt="abstract" />
+          <img src="https://lorempixel.com/100/100/abstract" alt="abstract" />
+          <img src="https://lorempixel.com/100/100/abstract" alt="abstract" />
+          <img src="https://lorempixel.com/100/100/abstract" alt="abstract" />
+          <img src="https://lorempixel.com/100/100/abstract" alt="abstract" />
+          <img src="https://lorempixel.com/100/100/abstract" alt="abstract" />
+          <img src="https://lorempixel.com/100/100/abstract" alt="abstract" />
+          <img src="https://lorempixel.com/100/100/abstract" alt="abstract" />
+          <img src="https://lorempixel.com/100/100/abstract" alt="abstract" />
+          <img src="https://lorempixel.com/100/100/abstract" alt="abstract" />
+          <img src="https://lorempixel.com/100/100/abstract" alt="abstract" />
         </div>
       </div>
     </div>
