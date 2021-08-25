@@ -1,7 +1,10 @@
 import "./App.css";
-import { useEffect, useLayoutEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useWindowResize } from "./window-hook";
 import classNames from "classnames";
+
+const contentFits = ({ offsetHeight, scrollHeight }) =>
+  offsetHeight === scrollHeight;
 
 function App() {
   const [showReadMore, setShowReadMore] = useState(false);
@@ -14,23 +17,21 @@ function App() {
   const readMoreRef = useRef(null);
   const sliderRef = useRef(null);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (showReadMore) {
       descriptionRef.current.scrollTop = 0;
     }
+
     if (width > 800) {
       setHideImage(false);
     }
-  }, [showReadMore, width < 800]);
+  }, [showReadMore, width]);
 
-  useLayoutEffect(() => {
-    setShowReadMore(
-      descriptionRef.current?.offsetHeight !==
-        descriptionRef.current?.scrollHeight
-    );
+  useEffect(() => {
+    setShowReadMore(!contentFits(descriptionRef.current));
   }, [
-    descriptionRef.current?.offsetHeight !==
-      descriptionRef.current?.scrollHeight,
+    descriptionRef.current?.offsetHeight,
+    descriptionRef.current?.scrollHeight,
   ]);
 
   return (
